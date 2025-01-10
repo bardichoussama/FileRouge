@@ -1,0 +1,11 @@
+@startuml
+package "pkg_Gestion des entretiens individuel" {
+    title Use Case - Sprint1
+
+    left to right direction
+    actor Responsable as RF
+    
+  RF -- (Gérer des notes )
+  
+}
+@enduml

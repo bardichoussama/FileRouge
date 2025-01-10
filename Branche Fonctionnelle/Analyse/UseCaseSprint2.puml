@@ -1,0 +1,13 @@
+@startuml
+package "pkg_Gestion des entretiens individuel" {
+    title Use Case - Sprint2
+
+    left to right direction
+    actor Responsable as RF
+    
+  RF -- (Générer un rapport d’évaluation)
+  RF -- (Suivre les progrès)
+
+  
+}
+@enduml

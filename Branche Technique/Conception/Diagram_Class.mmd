@@ -1,0 +1,29 @@
+classDiagram
+    direction LR
+    class Responsable {
+        +ID: int
+        +nom: string
+        +email: string
+    }
+
+    class Entretien {
+        +ID: int
+        +date: Date
+        +statut: string
+    }
+
+    class Apprenant {
+        +ID: int
+        +nom: string
+        +formation: string
+    }
+
+    class Formulaire {
+        +ID: int
+        +questions: List
+        +reponses: List
+    }
+
+    Responsable "1" -- "0..*" Entretien 
+    Entretien "1" -- "0..1" Apprenant 
+    Entretien "1" -- "1" Formulaire 
