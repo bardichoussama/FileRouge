@@ -1,29 +1,32 @@
 classDiagram
-    direction LR
-    class Responsable {
-        +ID: int
+    class Utilisateur {
+        +id: int
         +nom: string
         +email: string
+        +role: string
     }
 
-    class Entretien {
-        +ID: int
-        +date: Date
-        +statut: string
-    }
-
-    class Apprenant {
-        +ID: int
+    class Ressource {
+        +id: int
+        +type: string
         +nom: string
-        +formation: string
+        +lien: string
     }
 
     class Formulaire {
-        +ID: int
-        +questions: List
-        +reponses: List
+        +id: int
+        +nom: string
+        +questions: list<string>
     }
 
-    Responsable "1" -- "0..*" Entretien 
-    Entretien "1" -- "0..1" Apprenant 
-    Entretien "1" -- "1" Formulaire 
+    class Progression {
+        +id: int
+        +apprenantID: int
+        +score: double
+        +dateMiseÀJour: Date
+    }
+
+    Utilisateur "1" -- "0..*" Ressource
+    Utilisateur "1" -- "0..*" Formulaire
+    Utilisateur "1" -- "0..*" Progression
+    Progression "1" -- "1" Utilisateur

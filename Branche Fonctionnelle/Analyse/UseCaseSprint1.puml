@@ -1,11 +1,17 @@
 @startuml
 package "pkg_Gestion des entretiens individuel" {
-    title Use Case - Sprint1
+    title Use Case - Sprint 1 (Formateur / Responsable des Stagiaires)
 
     left to right direction
-    actor Responsable as RF
-    
-  RF -- (Gérer des notes )
-  
+
+    actor "Formateur / Responsable des Stagiaires" as RespoFormateur
+
+    usecase "Gérer des ressources" as UC1
+    usecase "Gérer des formulaires" as UC2
+    usecase "Voir la progression des apprenants" as UC3
+
+    RespoFormateur -- UC1
+    RespoFormateur -- UC2
+    RespoFormateur -- UC3
 }
 @enduml

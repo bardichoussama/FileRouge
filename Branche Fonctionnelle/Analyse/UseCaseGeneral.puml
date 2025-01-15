@@ -3,11 +3,24 @@ package "pkg_Gestion des entretiens individuel" {
     title Use Case - Generale
 
     left to right direction
-    actor Responsable as RF
-    
-  RF -- (Générer un rapport d’évaluation)
-  RF -- (Suivre les progrès)
-  RF -- (Gérer des notes )
+
+    actor "Formateur / Responsable des Stagiaires" as RespoFormateur
+    actor "Apprenant" as Apprenant
+
+    usecase "Gérer des ressources" as UC1
+    usecase "Gérer des formulaires" as UC2
+    usecase "Voir la progression des apprenants" as UC3
+    usecase "Remplir le formulaire de feedback" as UC4
+    usecase "Accéder aux ressources pédagogiques" as UC5
   
+
+    RespoFormateur -- UC1
+    RespoFormateur -- UC2
+    RespoFormateur -- UC3
+  
+
+    Apprenant -- UC4
+    Apprenant -- UC5
+
 }
 @enduml

@@ -1,13 +1,15 @@
 @startuml
 package "pkg_Gestion des entretiens individuel" {
-    title Use Case - Sprint2
+    title Use Case - Sprint 2 (Apprenant)
 
     left to right direction
-    actor Responsable as RF
-    
-  RF -- (Générer un rapport d’évaluation)
-  RF -- (Suivre les progrès)
 
-  
+    actor "Apprenant" as Apprenant
+
+    usecase "Remplir le formulaire de feedback" as UC4
+    usecase "Accéder aux ressources pédagogiques" as UC5
+
+    Apprenant -- UC4
+    Apprenant -- UC5
 }
 @enduml
