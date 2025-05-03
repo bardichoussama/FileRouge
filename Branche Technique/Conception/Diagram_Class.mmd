@@ -1,32 +1,73 @@
 classDiagram
-    class Utilisateur {
-        +id: int
-        +nom: string
-        +email: string
-        +role: string
-    }
 
-    class Ressource {
-        +id: int
-        +type: string
-        +nom: string
-        +lien: string
-    }
+class Utilisateur {
+  +int id
+  +string nom
+  +string email
+  +string role // "responsable", "apprenant"
+}
 
-    class Formulaire {
-        +id: int
-        +nom: string
-        +questions: list<string>
-    }
+class Entretien {
+  +int id
+  +string titre
+  +string description
+  +datetime date_heure
+  +int duree_minutes
+  +int responsable_id
+  +int apprenant_id
+  +string statut
+  +datetime created_at
+}
 
-    class Progression {
-        +id: int
-        +apprenantID: int
-        +score: double
-        +dateMiseÀJour: Date
-    }
+class Formulaire {
+  +int id
+  +string titre
+  +string description
+  +datetime deadline
+  +datetime created_at
+}
 
-    Utilisateur "1" -- "0..*" Ressource
-    Utilisateur "1" -- "0..*" Formulaire
-    Utilisateur "1" -- "0..*" Progression
-    Progression "1" -- "1" Utilisateur
+class Question {
+  +int id
+  +int formulaire_id
+  +string enonce
+  +string type // "choix_unique", "choix_multiple", "texte_libre"
+  +int ordre
+  +bool obligatoire
+}
+
+class OptionReponse {
+  +int id
+  +int question_id
+  +string texte
+}
+
+class ReponseFormulaire {
+  +int id
+  +int formulaire_id
+  +int apprenant_id
+  +datetime date_soumission
+}
+
+class ReponseQuestion {
+  +int id
+  +int reponse_formulaire_id
+  +int question_id
+  +string reponse_texte
+}
+
+class ReponseOption {
+  +int id
+  +int reponse_question_id
+  +int option_reponse_id
+}
+
+Utilisateur "1" --> "0..*" Entretien : crée
+Utilisateur "1" --> "0..*" Entretien : participe
+Entretien "1" --> "0..1" Formulaire : utilise
+Formulaire "1" --> "1..*" Question : contient
+Question "1" --> "0..*" OptionReponse : propose
+Utilisateur "1" --> "0..*" ReponseFormulaire : soumet
+Formulaire "1" --> "0..*" ReponseFormulaire : reçoit
+ReponseFormulaire "1" --> "1..*" ReponseQuestion : contient
+ReponseQuestion "1" --> "0..*" ReponseOption : sélectionne
