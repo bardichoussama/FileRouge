@@ -1,26 +1,33 @@
 @startuml
-package "pkg_Gestion des entretiens individuel" {
-    title Use Case - Generale
+left to right direction
 
-    left to right direction
+actor Admin
+actor Responsable
+actor Apprenant
 
-    actor "Formateur / Responsable des Stagiaires" as RespoFormateur
-    actor "Apprenant" as Apprenant
-
-    usecase "Gérer des ressources" as UC1
-    usecase "Gérer des formulaires" as UC2
-    usecase "Voir la progression des apprenants" as UC3
-    usecase "Remplir le formulaire de feedback" as UC4
-    usecase "Accéder aux ressources pédagogiques" as UC5
-  
-
-    RespoFormateur -- UC1
-    RespoFormateur -- UC2
-    RespoFormateur -- UC3
-  
-
-    Apprenant -- UC4
-    Apprenant -- UC5
-
+rectangle "Système Entretien" {
+  usecase "Créer Formulaire" as UC1
+  usecase "Gérer Questions" as UC2
+  usecase "Gérer Options" as UC3
+  usecase "Créer Entretien" as UC4
+  usecase "Affecter Formulaire à Apprenant" as UC5
+  usecase "Voir Tableau de Bord" as UC6
+  usecase "Répondre aux Questions" as UC7
+  usecase "Voir Résultats Entretien" as UC8
+  usecase "Analyser Réponses" as UC9
 }
+
+Responsable --> UC1
+Responsable --> UC2
+Responsable --> UC3
+Responsable --> UC4
+Responsable --> UC5
+Responsable --> UC6
+Responsable --> UC8
+Responsable --> UC9
+
+Apprenant --> UC7
+
+Admin --> UC6
+
 @enduml
