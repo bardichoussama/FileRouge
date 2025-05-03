@@ -1,17 +1,23 @@
 @startuml
-package "pkg_Gestion des entretiens individuel" {
-    title Use Case - Sprint 1 (Formateur / Responsable des Stagiaires)
+left to right direction
 
-    left to right direction
+actor Responsable
+actor Admin
 
-    actor "Formateur / Responsable des Stagiaires" as RespoFormateur
-
-    usecase "Gérer des ressources" as UC1
-    usecase "Gérer des formulaires" as UC2
-    usecase "Voir la progression des apprenants" as UC3
-
-    RespoFormateur -- UC1
-    RespoFormateur -- UC2
-    RespoFormateur -- UC3
+rectangle "Sprint 1: Configuration Formulaire & Dashboard" {
+  usecase "Créer Formulaire" as UC1
+  usecase "Ajouter Questions" as UC2
+  usecase "Ajouter Options" as UC3
+  usecase "Créer Entretien" as UC4
+  usecase "Voir Tableau de Bord" as UC5
 }
+
+Responsable --> UC1
+Responsable --> UC2
+Responsable --> UC3
+Responsable --> UC4
+Responsable --> UC5
+
+Admin --> UC5
+
 @enduml
