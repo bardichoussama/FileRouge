@@ -2,22 +2,22 @@
 left to right direction
 
 actor Responsable
-actor Admin
+
 
 rectangle "Sprint 1: Configuration Formulaire & Dashboard" {
-  usecase "Créer Formulaire" as UC1
-  usecase "Ajouter Questions" as UC2
-  usecase "Ajouter Options" as UC3
-  usecase "Créer Entretien" as UC4
-  usecase "Voir Tableau de Bord" as UC5
+  usecase "Gérer Formulaire" as UC1
+  usecase "Gérer Questions" as UC2
+  usecase "Gérer Options" as UC3
+  usecase "Gérer Entretien" as UC4
+  usecase "Gérer Tableau de Bord" as UC5
 }
 
-Responsable --> UC1
-Responsable --> UC2
-Responsable --> UC3
-Responsable --> UC4
-Responsable --> UC5
+Responsable -- UC1
+Responsable -- UC2
+Responsable -- UC3
+Responsable -- UC4
+Responsable -- UC5
 
-Admin --> UC5
+
 
 @enduml

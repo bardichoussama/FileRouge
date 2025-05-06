@@ -1,23 +1,22 @@
 @startuml
 left to right direction
 
+actor Apprenant
 actor Responsable
-actor Admin
 
-rectangle "Sprint 1: Configuration Formulaire & Dashboard" {
-  usecase "Créer Formulaire" as UC1
-  usecase "Ajouter Questions" as UC2
-  usecase "Ajouter Options" as UC3
-  usecase "Créer Entretien" as UC4
-  usecase "Voir Tableau de Bord" as UC5
+rectangle "Sprint 2: Interaction Apprenant & Analyse" {
+  usecase "Voir Formulaire Disponible" as UC1
+  usecase "Répondre aux Questions" as UC2
+
+  usecase "Voir Résultats Réponses" as UC5
+  usecase "Analyser Réponses" as UC6
 }
 
-Responsable --> UC1
-Responsable --> UC2
-Responsable --> UC3
-Responsable --> UC4
-Responsable --> UC5
+Apprenant -- UC1
+Apprenant -- UC2
 
-Admin --> UC5
+
+Responsable -- UC5
+Responsable -- UC6
 
 @enduml

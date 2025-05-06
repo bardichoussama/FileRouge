@@ -1,33 +1,32 @@
 @startuml
 left to right direction
 
-actor Admin
+
 actor Responsable
 actor Apprenant
 
-rectangle "Système Entretien" {
-  usecase "Créer Formulaire" as UC1
+rectangle "Diagramme de Class Generale" {
+  usecase "Gérer Formulaire" as UC1
   usecase "Gérer Questions" as UC2
   usecase "Gérer Options" as UC3
   usecase "Créer Entretien" as UC4
   usecase "Affecter Formulaire à Apprenant" as UC5
-  usecase "Voir Tableau de Bord" as UC6
+  usecase "Gérer Tableau de Bord" as UC6
   usecase "Répondre aux Questions" as UC7
   usecase "Voir Résultats Entretien" as UC8
   usecase "Analyser Réponses" as UC9
 }
 
-Responsable --> UC1
-Responsable --> UC2
-Responsable --> UC3
-Responsable --> UC4
-Responsable --> UC5
-Responsable --> UC6
-Responsable --> UC8
-Responsable --> UC9
+Responsable -- UC1
+Responsable -- UC2
+Responsable -- UC3
+Responsable -- UC4
+Responsable -- UC5
+Responsable -- UC6
+Responsable -- UC8
+Responsable -- UC9
 
-Apprenant --> UC7
+Apprenant -- UC7
 
-Admin --> UC6
 
 @enduml
