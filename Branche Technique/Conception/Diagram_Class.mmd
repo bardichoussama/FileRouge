@@ -1,73 +1,100 @@
 classDiagram
+    direction LR
 
-class Utilisateur {
-  +int id
-  +string nom
-  +string email
-  +string role // "responsable", "apprenant"
-}
+    class User {
+        +id: bigint
+        +name: string
+        +email: string
+        +password: string
+        +group_id: bigint?
+    }
 
-class Entretien {
-  +int id
-  +string titre
-  +string description
-  +datetime date_heure
-  +int duree_minutes
-  +int responsable_id
-  +int apprenant_id
-  +string statut
-  +datetime created_at
-}
+    class Groupe {
+        +id: bigint
+        +nom: string
+        +annee_promotion: year
+        +description: text?
+    }
 
-class Formulaire {
-  +int id
-  +string titre
-  +string description
-  +datetime deadline
-  +datetime created_at
-}
+    class Formulaire {
+        +id: bigint
+        +titre: string
+        +description: text?
+        +deadline: datetime
+    }
 
-class Question {
-  +int id
-  +int formulaire_id
-  +string enonce
-  +string type // "choix_unique", "choix_multiple", "texte_libre"
-  +int ordre
-  +bool obligatoire
-}
+    class Question {
+        +id: bigint
+        +formulaire_id: bigint
+        +enonce: text
+        +type: enum
+        +ordre: int
+        +obligatoire: bool
+    }
 
-class OptionReponse {
-  +int id
-  +int question_id
-  +string texte
-}
+    class OptionReponse {
+        +id: bigint
+        +question_id: bigint
+        +texte: string
+    }
 
-class ReponseFormulaire {
-  +int id
-  +int formulaire_id
-  +int apprenant_id
-  +datetime date_soumission
-}
+    class Entretien {
+        +id: bigint
+        +date_heure: datetime
+        +duree_minutes: int
+        +responsable_id: bigint
+        +groupe_id: bigint
+        +formulaire_id: bigint?
+        +statut: enum
+    }
 
-class ReponseQuestion {
-  +int id
-  +int reponse_formulaire_id
-  +int question_id
-  +string reponse_texte
-}
+    class EntretienApprenant {
+        +id: bigint
+        +entretien_id: bigint
+        +apprenant_id: bigint
+    }
 
-class ReponseOption {
-  +int id
-  +int reponse_question_id
-  +int option_reponse_id
-}
+    class ReponseFormulaire {
+        +id: bigint
+        +formulaire_id: bigint
+        +apprenant_id: bigint
+        +date_soumission: datetime
+    }
 
-Utilisateur "1" --> "0..*" Entretien : crée
-Utilisateur "1" --> "0..*" Entretien : participe
-Entretien "1" --> "0..1" Formulaire : utilise
-Formulaire "1" --> "1..*" Question : contient
-Question "1" --> "0..*" OptionReponse : propose
-Utilisateur "1" --> "0..*" ReponseFormulaire : soumet
-Formulaire "1" --> "0..*" ReponseFormulaire : reçoit
-ReponseFormulaire "1" --> "1..*" ReponseQuestion : contient
-ReponseQuestion "1" --> "0..*" ReponseOption : sélectionne
+    class ReponseQuestion {
+        +id: bigint
+        +reponse_formulaire_id: bigint
+        +question_id: bigint
+        +reponse_texte: text?
+    }
+
+    class ReponseOption {
+        +id: bigint
+        +reponse_question_id: bigint
+        +option_reponse_id: bigint
+    }
+
+    %% Relationships
+    User --> Groupe : belongs to
+    Groupe --> User : has many
+
+    Formulaire --> Question : has many
+    Question --> OptionReponse : has many
+
+    Entretien --> Groupe : belongs to
+    Entretien --> Formulaire : uses
+    Entretien --> User : created by
+    Entretien --> EntretienApprenant : has many
+
+    EntretienApprenant --> Entretien : belongs to
+    EntretienApprenant --> User : apprenant
+
+    Formulaire --> ReponseFormulaire : has many
+    User --> ReponseFormulaire : submits
+
+    ReponseFormulaire --> ReponseQuestion : has many
+    ReponseQuestion --> ReponseOption : has many
+    ReponseQuestion --> Question : relates to
+
+    OptionReponse --> Question : belongs to
+    ReponseOption --> OptionReponse : selected
