@@ -1,6 +1,5 @@
 classDiagram
     direction LR
-
     %% Entities
     class User {
         id
@@ -9,21 +8,18 @@ classDiagram
         password
         group_id?
     }
-
     class Groupe {
         id
         nom
         annee_promotion
         description?
     }
-
     class Formulaire {
         id
         titre
         description?
         deadline
     }
-
     class Question {
         id
         formulaire_id
@@ -32,13 +28,11 @@ classDiagram
         ordre
         obligatoire
     }
-
     class OptionReponse {
         id
         question_id
         texte
     }
-
     class Entretien {
         id
         date_heure
@@ -48,52 +42,40 @@ classDiagram
         formulaire_id?
         statut
     }
-
     class EntretienApprenant {
         id
         entretien_id
         apprenant_id
     }
-
     class ReponseFormulaire {
         id
         formulaire_id
         apprenant_id
         date_soumission
     }
-
     class ReponseQuestion {
         id
         reponse_formulaire_id
         question_id
         reponse_texte?
     }
-
     class ReponseOption {
         id
         reponse_question_id
         option_reponse_id
     }
-
     %% Relationships
     User "0..*" --> "1" Groupe
-
     Formulaire "1" --> "0..*" Question
     Question "1" --> "0..*" OptionReponse
-
     Entretien "1" --> "1" Groupe
     Entretien "0..1" --> "1" Formulaire
     Entretien "1" --> "1" User : responsable
     Entretien "1" --> "0..*" EntretienApprenant
-
     EntretienApprenant "1" --> "1" User : apprenant
-    EntretienApprenant "1" --> "1" Entretien
-
-    Formulaire "1" --> "0..*" ReponseFormulaire
     ReponseFormulaire "1" --> "1" User : apprenant
-
+    ReponseFormulaire "1" --> "1" Formulaire
     ReponseFormulaire "1" --> "0..*" ReponseQuestion
-    ReponseQuestion "1" --> "0..*" ReponseOption
     ReponseQuestion "1" --> "1" Question
-
+    ReponseQuestion "1" --> "0..*" ReponseOption
     ReponseOption "1" --> "1" OptionReponse
