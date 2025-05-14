@@ -75,9 +75,8 @@ classDiagram
         option_reponse_id
     }
 
-    %% Relationships (Cardinality only)
+    %% Relationships
     User "0..*" --> "1" Groupe
-    Groupe "1" --> "0..*" User
 
     Formulaire "1" --> "0..*" Question
     Question "1" --> "0..*" OptionReponse
@@ -98,4 +97,3 @@ classDiagram
     ReponseQuestion "1" --> "1" Question
 
     ReponseOption "1" --> "1" OptionReponse
-    OptionReponse "1" --> "1" Question
