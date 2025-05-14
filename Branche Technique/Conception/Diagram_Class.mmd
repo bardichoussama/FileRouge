@@ -3,98 +3,99 @@ classDiagram
 
     %% Entities
     class User {
-        +id
-        +name
-        +email
-        +password
-        +group_id?
+        id
+        name
+        email
+        password
+        group_id?
     }
 
     class Groupe {
-        +id
-        +nom
-        +annee_promotion
-        +description?
+        id
+        nom
+        annee_promotion
+        description?
     }
 
     class Formulaire {
-        +id
-        +titre
-        +description?
-        +deadline
+        id
+        titre
+        description?
+        deadline
     }
 
     class Question {
-        +id
-        +formulaire_id
-        +enonce
-        +type
-        +ordre
-        +obligatoire
+        id
+        formulaire_id
+        enonce
+        type
+        ordre
+        obligatoire
     }
 
     class OptionReponse {
-        +id
-        +question_id
-        +texte
+        id
+        question_id
+        texte
     }
 
     class Entretien {
-        +id
-        +date_heure
-        +duree_minutes
-        +responsable_id
-        +groupe_id
-        +formulaire_id?
-        +statut
+        id
+        date_heure
+        duree_minutes
+        responsable_id
+        groupe_id
+        formulaire_id?
+        statut
     }
 
     class EntretienApprenant {
-        +id
-        +entretien_id
-        +apprenant_id
+        id
+        entretien_id
+        apprenant_id
     }
 
     class ReponseFormulaire {
-        +id
-        +formulaire_id
-        +apprenant_id
-        +date_soumission
+        id
+        formulaire_id
+        apprenant_id
+        date_soumission
     }
 
     class ReponseQuestion {
-        +id
-        +reponse_formulaire_id
-        +question_id
-        +reponse_texte?
+        id
+        reponse_formulaire_id
+        question_id
+        reponse_texte?
     }
 
     class ReponseOption {
-        +id
-        +reponse_question_id
-        +option_reponse_id
+        id
+        reponse_question_id
+        option_reponse_id
     }
 
-    %% Relationships
-    User --> Groupe : belongs to
-    Groupe --> User : has many
+    %% Relationships (Cardinality only)
+    User "0..*" --> "1" Groupe
+    Groupe "1" --> "0..*" User
 
-    Formulaire --> Question : has many
-    Question --> OptionReponse : has many
+    Formulaire "1" --> "0..*" Question
+    Question "1" --> "0..*" OptionReponse
 
-    Entretien --> Groupe
-    Entretien --> Formulaire
-    Entretien --> User : responsable
-    Entretien --> EntretienApprenant : includes
+    Entretien "1" --> "1" Groupe
+    Entretien "0..1" --> "1" Formulaire
+    Entretien "1" --> "1" User : responsable
+    Entretien "1" --> "0..*" EntretienApprenant
 
-    EntretienApprenant --> User : apprenant
+    EntretienApprenant "1" --> "1" User : apprenant
+    EntretienApprenant "1" --> "1" Entretien
 
-    Formulaire --> ReponseFormulaire : has many
-    ReponseFormulaire --> User : submitted by
+    Formulaire "1" --> "0..*" ReponseFormulaire
+    ReponseFormulaire "1" --> "1" User : apprenant
 
-    ReponseFormulaire --> ReponseQuestion : contains
-    ReponseQuestion --> ReponseOption : selects
-    ReponseQuestion --> Question : answers
+    ReponseFormulaire "1" --> "0..*" ReponseQuestion
+    ReponseQuestion "1" --> "0..*" ReponseOption
+    ReponseQuestion "1" --> "1" Question
 
-    OptionReponse --> Question
-    ReponseOption --> OptionReponse
+    ReponseOption "1" --> "1" OptionReponse
+    OptionReponse "1" --> "1" Question
