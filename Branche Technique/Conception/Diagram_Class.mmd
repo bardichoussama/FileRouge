@@ -1,77 +1,78 @@
 classDiagram
     direction LR
 
+    %% Entities
     class User {
-        +id: bigint
-        +name: string
-        +email: string
-        +password: string
-        +group_id: bigint?
+        +id
+        +name
+        +email
+        +password
+        +group_id?
     }
 
     class Groupe {
-        +id: bigint
-        +nom: string
-        +annee_promotion: year
-        +description: text?
+        +id
+        +nom
+        +annee_promotion
+        +description?
     }
 
     class Formulaire {
-        +id: bigint
-        +titre: string
-        +description: text?
-        +deadline: datetime
+        +id
+        +titre
+        +description?
+        +deadline
     }
 
     class Question {
-        +id: bigint
-        +formulaire_id: bigint
-        +enonce: text
-        +type: enum
-        +ordre: int
-        +obligatoire: bool
+        +id
+        +formulaire_id
+        +enonce
+        +type
+        +ordre
+        +obligatoire
     }
 
     class OptionReponse {
-        +id: bigint
-        +question_id: bigint
-        +texte: string
+        +id
+        +question_id
+        +texte
     }
 
     class Entretien {
-        +id: bigint
-        +date_heure: datetime
-        +duree_minutes: int
-        +responsable_id: bigint
-        +groupe_id: bigint
-        +formulaire_id: bigint?
-        +statut: enum
+        +id
+        +date_heure
+        +duree_minutes
+        +responsable_id
+        +groupe_id
+        +formulaire_id?
+        +statut
     }
 
     class EntretienApprenant {
-        +id: bigint
-        +entretien_id: bigint
-        +apprenant_id: bigint
+        +id
+        +entretien_id
+        +apprenant_id
     }
 
     class ReponseFormulaire {
-        +id: bigint
-        +formulaire_id: bigint
-        +apprenant_id: bigint
-        +date_soumission: datetime
+        +id
+        +formulaire_id
+        +apprenant_id
+        +date_soumission
     }
 
     class ReponseQuestion {
-        +id: bigint
-        +reponse_formulaire_id: bigint
-        +question_id: bigint
-        +reponse_texte: text?
+        +id
+        +reponse_formulaire_id
+        +question_id
+        +reponse_texte?
     }
 
     class ReponseOption {
-        +id: bigint
-        +reponse_question_id: bigint
-        +option_reponse_id: bigint
+        +id
+        +reponse_question_id
+        +option_reponse_id
     }
 
     %% Relationships
@@ -81,20 +82,19 @@ classDiagram
     Formulaire --> Question : has many
     Question --> OptionReponse : has many
 
-    Entretien --> Groupe : belongs to
-    Entretien --> Formulaire : uses
-    Entretien --> User : created by
-    Entretien --> EntretienApprenant : has many
+    Entretien --> Groupe
+    Entretien --> Formulaire
+    Entretien --> User : responsable
+    Entretien --> EntretienApprenant : includes
 
-    EntretienApprenant --> Entretien : belongs to
     EntretienApprenant --> User : apprenant
 
     Formulaire --> ReponseFormulaire : has many
-    User --> ReponseFormulaire : submits
+    ReponseFormulaire --> User : submitted by
 
-    ReponseFormulaire --> ReponseQuestion : has many
-    ReponseQuestion --> ReponseOption : has many
-    ReponseQuestion --> Question : relates to
+    ReponseFormulaire --> ReponseQuestion : contains
+    ReponseQuestion --> ReponseOption : selects
+    ReponseQuestion --> Question : answers
 
-    OptionReponse --> Question : belongs to
-    ReponseOption --> OptionReponse : selected
+    OptionReponse --> Question
+    ReponseOption --> OptionReponse
