@@ -1,7 +1,7 @@
 classDiagram
     direction LR
 
-    %% ==== Namespace for User ====
+    %% ===== PACKAGE: UTILISATEURS =====
     namespace PkgUtilisateurs {
         class User {
             +int id
@@ -12,7 +12,7 @@ classDiagram
         }
     }
 
-    %% ==== Other Entities ====
+    %% ===== CORE DOMAIN CLASSES =====
 
     class Groupe {
         +int id
@@ -30,6 +30,7 @@ classDiagram
 
     class Question {
         +int id
+        +int pre_entretien_id
         +string enonce
         +string type
         +int ordre
@@ -38,6 +39,7 @@ classDiagram
 
     class OptionReponse {
         +int id
+        +int question_id
         +string texte
     }
 
@@ -45,48 +47,7 @@ classDiagram
         +int id
         +datetime date_heure
         +int duree_minutes
+        +int responsable_id
+        +int groupe_id
+        +int? pre_entretien_id
         +string statut
-    }
-
-    class ReponsePreEntretien {
-        +int id
-        +datetime date_soumission
-    }
-
-    class ReponseQuestion {
-        +int id
-        +string? reponse_texte
-    }
-
-    class ReponseOption {
-        +int id
-    }
-
-    %% ==== Relationships ====
-
-    %% User ↔ Groupe
-    PkgUtilisateurs.User --> Groupe
-
-    %% Entretien ↔ User
-    Entretien --> PkgUtilisateurs.User : responsable
-    Entretien --> PkgUtilisateurs.User : apprenants
-
-    %% Entretien ↔ Groupe
-    Entretien --> Groupe
-
-    %% Entretien ↔ PreEntretien
-    Entretien --> PreEntretien
-
-    %% PreEntretien ↔ Question
-    PreEntretien --> Question
-    Question --> OptionReponse
-
-    %% ReponsePreEntretien ↔ User & PreEntretien
-    ReponsePreEntretien --> PkgUtilisateurs.User
-    ReponsePreEntretien --> PreEntretien
-
-    %% ReponsePreEntretien ↔ ReponseQuestion
-    ReponsePreEntretien --> ReponseQuestion
-    ReponseQuestion --> Question
-    ReponseQuestion --> ReponseOption
-    ReponseOption --> OptionReponse
