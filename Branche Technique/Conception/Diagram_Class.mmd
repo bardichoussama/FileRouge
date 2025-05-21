@@ -1,90 +1,63 @@
 classDiagram
     direction LR
-
     %% ===== CORE CLASSES WITHOUT PACKAGES =====
-
     class User {
         +int id
         +string name
         +string email
         +string password
-        +int group_id
     }
-
     class Groupe {
         +int id
         +string nom
         +int annee_promotion
         +string description
     }
-
     class PreEntretien {
         +int id
         +string titre
         +string description
         +datetime deadline
     }
-
     class Question {
         +int id
-        +int pre_entretien_id
         +string enonce
         +string type
         +int ordre
         +bool obligatoire
     }
-
     class OptionReponse {
         +int id
-        +int question_id
         +string texte
     }
-
     class Entretien {
         +int id
         +datetime date_heure
         +int duree_minutes
-        +int responsable_id
-        +int groupe_id
-        +int pre_entretien_id
         +string statut
     }
-
     class ReponsePreEntretien {
         +int id
-        +int pre_entretien_id
-        +int apprenant_id
         +datetime date_soumission
     }
-
     class ReponseQuestion {
         +int id
-        +int reponse_pre_entretien_id
-        +int question_id
         +string reponse_texte
     }
-
     class ReponseOption {
         +int id
-        +int reponse_question_id
-        +int option_reponse_id
     }
-
     %% ===== RELATIONSHIPS =====
-
-    User "0..*" --> "1" Groupe : appartient à
-    Entretien "1" --> "1" User : responsable
-    User "0..*" --> "0..*" Entretien : participe à
-    Entretien "1" --> "1" Groupe : pour
-    Entretien "0..1" --> "1" PreEntretien : utilise
-
-    PreEntretien "1" --> "0..*" Question : contient
-    Question "1" --> "0..*" OptionReponse : options
-
-    ReponsePreEntretien "1" --> "1" User : apprenant
-    ReponsePreEntretien "1" --> "1" PreEntretien : répond à
-    ReponsePreEntretien "1" --> "0..*" ReponseQuestion : réponses
-
-    ReponseQuestion "1" --> "1" Question : question
-    ReponseQuestion "1" --> "0..*" ReponseOption : options cochées
-    ReponseOption "1" --> "1" OptionReponse : correspond à
+    User "n" -- "1" Groupe : appartient à
+    Entretien "n" -- "1" User : a pour responsable
+    User "n" -- "m" Entretien : participe à
+    Entretien "n" -- "1" Groupe : concerne
+    Entretien "n" -- "1" PreEntretien : utilise
+    PreEntretien "1" -- "n" Question : contient
+    Question "1" -- "n" OptionReponse : possède
+    ReponsePreEntretien "n" -- "1" User : soumis par
+    ReponsePreEntretien "n" -- "1" PreEntretien : répond à
+    ReponsePreEntretien "1" -- "n" ReponseQuestion : contient
+    ReponseQuestion "n" -- "1" Question : répond à
+    ReponseQuestion "1" -- "n" ReponseOption : inclut
+    ReponseOption "n" -- "1" OptionReponse : sélectionne
