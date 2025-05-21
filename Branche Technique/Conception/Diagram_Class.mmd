@@ -30,7 +30,6 @@ classDiagram
 
     class Question {
         +int id
-        +int pre_entretien_id
         +string enonce
         +string type
         +int ordre
@@ -39,7 +38,6 @@ classDiagram
 
     class OptionReponse {
         +int id
-        +int question_id
         +string texte
     }
 
@@ -47,57 +45,48 @@ classDiagram
         +int id
         +datetime date_heure
         +int duree_minutes
-        +int responsable_id
-        +int groupe_id
-        +int? pre_entretien_id
         +string statut
     }
 
     class ReponsePreEntretien {
         +int id
-        +int pre_entretien_id
-        +int apprenant_id
         +datetime date_soumission
     }
 
     class ReponseQuestion {
         +int id
-        +int reponse_pre_entretien_id
-        +int question_id
         +string? reponse_texte
     }
 
     class ReponseOption {
         +int id
-        +int reponse_question_id
-        +int option_reponse_id
     }
 
     %% ==== Relationships ====
 
     %% User ↔ Groupe
-    PkgUtilisateurs.User "0..*" --> "1" Groupe : belongs to
+    PkgUtilisateurs.User --> Groupe
 
     %% Entretien ↔ User
-    Entretien "0..*" --> "1" PkgUtilisateurs.User : responsable
-    Entretien "0..*" <---> "0..*" PkgUtilisateurs.User : apprenants
+    Entretien --> PkgUtilisateurs.User : responsable
+    Entretien --> PkgUtilisateurs.User : apprenants
 
     %% Entretien ↔ Groupe
-    Entretien "1" --> "1" Groupe : for
+    Entretien --> Groupe
 
     %% Entretien ↔ PreEntretien
-    Entretien "0..1" --> "1" PreEntretien : uses
+    Entretien --> PreEntretien
 
-    %% PreEntretien ↔ Questions
-    PreEntretien "1" --> "0..*" Question : contains
-    Question "1" --> "0..*" OptionReponse : has options
+    %% PreEntretien ↔ Question
+    PreEntretien --> Question
+    Question --> OptionReponse
 
-    %% ReponsePreEntretien ↔ User + PreEntretien
-    ReponsePreEntretien "1" --> "1" PkgUtilisateurs.User : apprenant
-    ReponsePreEntretien "1" --> "1" PreEntretien : is answer of
+    %% ReponsePreEntretien ↔ User & PreEntretien
+    ReponsePreEntretien --> PkgUtilisateurs.User
+    ReponsePreEntretien --> PreEntretien
 
     %% ReponsePreEntretien ↔ ReponseQuestion
-    ReponsePreEntretien "1" --> "0..*" ReponseQuestion : has answers
-    ReponseQuestion "1" --> "1" Question : answers
-    ReponseQuestion "1" --> "0..*" ReponseOption : with selected options
-    ReponseOption "1" --> "1" OptionReponse : option
+    ReponsePreEntretien --> ReponseQuestion
+    ReponseQuestion --> Question
+    ReponseQuestion --> ReponseOption
+    ReponseOption --> OptionReponse
