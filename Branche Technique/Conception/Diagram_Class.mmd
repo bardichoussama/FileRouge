@@ -77,7 +77,7 @@ classDiagram
 
     PkgUtilisateurs.User "0..*" --> "1" Groupe : appartient à
     Entretien "1" --> "1" PkgUtilisateurs.User : responsable
-    Entretien "0..*" <---> "0..*" PkgUtilisateurs.User : participants
+    PkgUtilisateurs.User "0..*" --> "0..*" Entretien : participe à
     Entretien "1" --> "1" Groupe : pour
     Entretien "0..1" --> "1" PreEntretien : utilise
 
