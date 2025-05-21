@@ -1,14 +1,18 @@
 classDiagram
     direction LR
 
-    %% ==== Entities ====
-    class User {
-        +int id
-        +string name
-        +string email
-        +string password
-        +int? group_id
+    %% ==== Namespace for User ====
+    namespace PkgUtilisateurs {
+        class User {
+            +int id
+            +string name
+            +string email
+            +string password
+            +int? group_id
+        }
     }
+
+    %% ==== Other Entities ====
 
     class Groupe {
         +int id
@@ -17,7 +21,7 @@ classDiagram
         +string? description
     }
 
-    class Formulaire {
+    class PreEntretien {
         +int id
         +string titre
         +string? description
@@ -26,7 +30,7 @@ classDiagram
 
     class Question {
         +int id
-        +int formulaire_id
+        +int pre_entretien_id
         +string enonce
         +string type
         +int ordre
@@ -45,20 +49,20 @@ classDiagram
         +int duree_minutes
         +int responsable_id
         +int groupe_id
-        +int? formulaire_id
+        +int? pre_entretien_id
         +string statut
     }
 
-    class ReponseFormulaire {
+    class ReponsePreEntretien {
         +int id
-        +int formulaire_id
+        +int pre_entretien_id
         +int apprenant_id
         +datetime date_soumission
     }
 
     class ReponseQuestion {
         +int id
-        +int reponse_formulaire_id
+        +int reponse_pre_entretien_id
         +int question_id
         +string? reponse_texte
     }
@@ -71,23 +75,29 @@ classDiagram
 
     %% ==== Relationships ====
 
-    %% Users
-    User "0..*" --> "1" Groupe : belongs to
-    Entretien "1" --> "1" User : responsable
-    Entretien "0..*" --> "0..*" User : apprenants
-    ReponseFormulaire "1" --> "1" User : apprenant
+    %% User ↔ Groupe
+    PkgUtilisateurs.User "0..*" --> "1" Groupe : belongs to
 
-    %% Groupe
+    %% Entretien ↔ User
+    Entretien "0..*" --> "1" PkgUtilisateurs.User : responsable
+    Entretien "0..*" <---> "0..*" PkgUtilisateurs.User : apprenants
+
+    %% Entretien ↔ Groupe
     Entretien "1" --> "1" Groupe : for
 
-    %% Formulaire
-    Formulaire "1" --> "0..*" Question : contains
-    Entretien "0..1" --> "1" Formulaire : uses
-    ReponseFormulaire "1" --> "1" Formulaire : is answer of
+    %% Entretien ↔ PreEntretien
+    Entretien "0..1" --> "1" PreEntretien : uses
 
-    %% Questions
+    %% PreEntretien ↔ Questions
+    PreEntretien "1" --> "0..*" Question : contains
     Question "1" --> "0..*" OptionReponse : has options
-    ReponseFormulaire "1" --> "0..*" ReponseQuestion : has answers
+
+    %% ReponsePreEntretien ↔ User + PreEntretien
+    ReponsePreEntretien "1" --> "1" PkgUtilisateurs.User : apprenant
+    ReponsePreEntretien "1" --> "1" PreEntretien : is answer of
+
+    %% ReponsePreEntretien ↔ ReponseQuestion
+    ReponsePreEntretien "1" --> "0..*" ReponseQuestion : has answers
     ReponseQuestion "1" --> "1" Question : answers
     ReponseQuestion "1" --> "0..*" ReponseOption : with selected options
     ReponseOption "1" --> "1" OptionReponse : option
