@@ -49,12 +49,6 @@ classDiagram
         +string statut
     }
 
-    class EntretienApprenant {
-        +int id
-        +int entretien_id
-        +int apprenant_id
-    }
-
     class ReponseFormulaire {
         +int id
         +int formulaire_id
@@ -77,26 +71,25 @@ classDiagram
 
     %% ==== Relationships ====
 
-    %% Users
+    %% Users & Groupes
     User "0..*" --> "1" Groupe : belongs to
-    Entretien "1" --> "1" User : responsable
-    EntretienApprenant "1" --> "1" User : apprenant
+
+    %% Users & Entretiens
+    Entretien "0..*" --> "1" User : responsable
+    Entretien "0..*" <---> "0..*" User : apprenants
+
+    %% Reponses
     ReponseFormulaire "1" --> "1" User : apprenant
-
-    %% Groupe
-    Entretien "1" --> "1" Groupe : for
-
-    %% Formulaire
-    Formulaire "1" --> "0..*" Question : contains
-    Entretien "0..1" --> "1" Formulaire : uses
     ReponseFormulaire "1" --> "1" Formulaire : is answer of
-
-    %% Questions
-    Question "1" --> "0..*" OptionReponse : has options
     ReponseFormulaire "1" --> "0..*" ReponseQuestion : has answers
     ReponseQuestion "1" --> "1" Question : answers
     ReponseQuestion "1" --> "0..*" ReponseOption : with selected options
     ReponseOption "1" --> "1" OptionReponse : option
 
-    %% Entretien & participation
-    Entretien "1" --> "0..*" EntretienApprenant : has participants
+    %% Groupes & Entretiens
+    Entretien "1" --> "1" Groupe : for
+
+    %% Formulaires & Questions
+    Formulaire "1" --> "0..*" Question : contains
+    Entretien "0..1" --> "1" Formulaire : uses
+    Question "1" --> "0..*" OptionReponse : has options
