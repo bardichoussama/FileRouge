@@ -1,63 +1,63 @@
 classDiagram
     direction LR
-    %% ===== CORE CLASSES WITHOUT PACKAGES =====
+    %% ===== CORE CLASSES =====
     class User {
-        +int id
-        +string name
-        +string email
-        +string password
+        -int id
+        -String name
+        -String email
+        -String password
     }
     class Groupe {
-        +int id
-        +string nom
-        +int annee_promotion
-        +string description
+        -int id
+        -String nom
+        -int anneePromotion
+        -String description
     }
     class PreEntretien {
-        +int id
-        +string titre
-        +string description
-        +datetime deadline
+        -int id
+        -String titre
+        -String description
+        -DateTime deadline
     }
     class Question {
-        +int id
-        +string enonce
-        +string type
-        +int ordre
-        +bool obligatoire
+        -int id
+        -String enonce
+        -String type
+        -int ordre
+        -boolean obligatoire
     }
     class OptionReponse {
-        +int id
-        +string texte
+        -int id
+        -String texte
     }
     class Entretien {
-        +int id
-        +datetime date_heure
-        +int duree_minutes
-        +string statut
+        -int id
+        -DateTime dateHeure
+        -int dureeMinutes
+        -String statut
     }
     class ReponsePreEntretien {
-        +int id
-        +datetime date_soumission
+        -int id
+        -DateTime dateSoumission
     }
     class ReponseQuestion {
-        +int id
-        +string reponse_texte
+        -int id
+        -String reponseTexte
     }
     class ReponseOption {
-        +int id
+        -int id
     }
     %% ===== RELATIONSHIPS =====
-    User "n" -- "1" Groupe : appartient à
-    Entretien "n" -- "1" User : a pour responsable
-    User "n" -- "m" Entretien : participe à
-    Entretien "n" -- "1" Groupe : concerne
-    Entretien "n" -- "1" PreEntretien : utilise
-    PreEntretien "1" -- "n" Question : contient
-    Question "1" -- "n" OptionReponse : possède
-    ReponsePreEntretien "n" -- "1" User : soumis par
-    ReponsePreEntretien "n" -- "1" PreEntretien : répond à
-    ReponsePreEntretien "1" -- "n" ReponseQuestion : contient
-    ReponseQuestion "n" -- "1" Question : répond à
-    ReponseQuestion "1" -- "n" ReponseOption : inclut
-    ReponseOption "n" -- "1" OptionReponse : sélectionne
+    User "0..*" -- "1" Groupe : appartient à
+    Entretien "0..*" -- "1" User : a pour responsable
+    User "0..*" -- "0..*" Entretien : participe à
+    Entretien "0..*" -- "1" Groupe : concerne
+    Entretien "0..*" -- "1" PreEntretien : utilise
+    PreEntretien "1" -- "0..*" Question : contient
+    Question "1" -- "0..*" OptionReponse : possède
+    ReponsePreEntretien "0..*" -- "1" User : soumis par
+    ReponsePreEntretien "0..*" -- "1" PreEntretien : répond à
+    ReponsePreEntretien "1" -- "0..*" ReponseQuestion : contient
+    ReponseQuestion "0..*" -- "1" Question : répond à
+    ReponseQuestion "1" -- "0..*" ReponseOption : inclut
+    ReponseOption "0..*" -- "1" OptionReponse : sélectionne
