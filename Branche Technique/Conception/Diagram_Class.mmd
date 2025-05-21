@@ -1,18 +1,15 @@
 classDiagram
     direction LR
 
-    %% ===== PACKAGE: UTILISATEURS =====
-    namespace PkgUtilisateurs {
-        class User {
-            +int id
-            +string name
-            +string email
-            +string password
-            +int group_id
-        }
-    }
+    %% ===== CORE CLASSES WITHOUT PACKAGES =====
 
-    %% ===== CORE DOMAIN CLASSES =====
+    class User {
+        +int id
+        +string name
+        +string email
+        +string password
+        +int group_id
+    }
 
     class Groupe {
         +int id
@@ -75,16 +72,16 @@ classDiagram
 
     %% ===== RELATIONSHIPS =====
 
-    PkgUtilisateurs.User "0..*" --> "1" Groupe : appartient à
-    Entretien "1" --> "1" PkgUtilisateurs.User : responsable
-    PkgUtilisateurs.User "0..*" --> "0..*" Entretien : participe à
+    User "0..*" --> "1" Groupe : appartient à
+    Entretien "1" --> "1" User : responsable
+    User "0..*" --> "0..*" Entretien : participe à
     Entretien "1" --> "1" Groupe : pour
     Entretien "0..1" --> "1" PreEntretien : utilise
 
     PreEntretien "1" --> "0..*" Question : contient
     Question "1" --> "0..*" OptionReponse : options
 
-    ReponsePreEntretien "1" --> "1" PkgUtilisateurs.User : apprenant
+    ReponsePreEntretien "1" --> "1" User : apprenant
     ReponsePreEntretien "1" --> "1" PreEntretien : répond à
     ReponsePreEntretien "1" --> "0..*" ReponseQuestion : réponses
 
