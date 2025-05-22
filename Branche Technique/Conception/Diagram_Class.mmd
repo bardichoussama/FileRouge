@@ -1,63 +1,104 @@
 classDiagram
     direction LR
-    %% ===== CORE CLASSES =====
+
     class User {
-        -int id
-        -String name
-        -String email
-        -String password
+        +int id
+        +string name
+        +string email
+        +string password
+        +int? group_id
+        +string role  // 'apprenant' or 'responsable'
     }
+
+    class Apprenant {
+        <<role>>
+    }
+
+    class Responsable {
+        <<role>>
+    }
+
+    User <|-- Apprenant
+    User <|-- Responsable
+
     class Groupe {
-        -int id
-        -String nom
-        -int anneePromotion
-        -String description
+        +int id
+        +string nom
+        +int annee_promotion
+        +string? description
     }
-    class PreEntretien {
-        -int id
-        -String titre
-        -String description
-        -DateTime deadline
+
+    class PreEntretienForm {
+        +int id
+        +string titre
+        +string? description
+        +datetime deadline
     }
+
     class Question {
-        -int id
-        -String enonce
-        -String type
-        -int ordre
-        -boolean obligatoire
+        +int id
+        +int formulaire_id
+        +string enonce
+        +string type
+        +int ordre
+        +bool obligatoire
     }
+
     class OptionReponse {
-        -int id
-        -String texte
+        +int id
+        +int question_id
+        +string texte
     }
+
     class Entretien {
-        -int id
-        -DateTime dateHeure
-        -int dureeMinutes
-        -String statut
+        +int id
+        +datetime date_heure
+        +int duree_minutes
+        +int responsable_id
+        +int groupe_id
+        +int? formulaire_id
+        +string statut
     }
-    class ReponsePreEntretien {
-        -int id
-        -DateTime dateSoumission
+
+    class EntretienApprenant {
+        +int id
+        +int entretien_id
+        +int apprenant_id
     }
+
+    class ReponseFormulaire {
+        +int id
+        +int formulaire_id
+        +int apprenant_id
+        +datetime date_soumission
+    }
+
     class ReponseQuestion {
-        -int id
-        -String reponseTexte
+        +int id
+        +int reponse_formulaire_id
+        +int question_id
+        +string? reponse_texte
     }
+
     class ReponseOption {
-        -int id
+        +int id
+        +int reponse_question_id
+        +int option_reponse_id
     }
-    %% ===== RELATIONSHIPS =====
-    User "0..*" -- "1" Groupe : appartient à
-    Entretien "0..*" -- "1" User : a pour responsable
-    User "0..*" -- "0..*" Entretien : participe à
-    Entretien "0..*" -- "1" Groupe : concerne
-    Entretien "0..*" -- "1" PreEntretien : utilise
-    PreEntretien "1" -- "0..*" Question : contient
-    Question "1" -- "0..*" OptionReponse : possède
-    ReponsePreEntretien "0..*" -- "1" User : soumis par
-    ReponsePreEntretien "0..*" -- "1" PreEntretien : répond à
-    ReponsePreEntretien "1" -- "0..*" ReponseQuestion : contient
-    ReponseQuestion "0..*" -- "1" Question : répond à
-    ReponseQuestion "1" -- "0..*" ReponseOption : inclut
-    ReponseOption "0..*" -- "1" OptionReponse : sélectionne
+
+    %% Relationships
+    User "0..*" --> "1" Groupe : belongs to
+    Entretien "1" --> "1" Responsable : responsable
+    EntretienApprenant "1" --> "1" Apprenant : apprenant
+    ReponseFormulaire "1" --> "1" Apprenant : submitter
+
+    Entretien "1" --> "1" Groupe : for
+    PreEntretienForm "1" --> "0..*" Question : has
+    Entretien "0..1" --> "1" PreEntretienForm : uses
+    ReponseFormulaire "1" --> "1" PreEntretienForm : is answer of
+
+    Question "1" --> "0..*" OptionReponse : has options
+    ReponseFormulaire "1" --> "0..*" ReponseQuestion : contains
+    ReponseQuestion "1" --> "1" Question : answers
+    ReponseQuestion "1" --> "0..*" ReponseOption : options
+    ReponseOption "1" --> "1" OptionReponse : refers
