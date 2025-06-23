@@ -1,0 +1,12 @@
+{
+    "name": "SessionDeSuivi",
+    "enabled": true,
+    "description": "Module for managing individual interviews",
+    "version": "1.0.0",
+    "author": "Your Name",
+    "providers": [
+      "Modules\\PkgSessionDeSuivi\\Providers\\SessionDeSuiviServiceProvider"
+      
+    ]
+  }
+  

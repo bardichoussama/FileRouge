@@ -1,33 +1,34 @@
 @startuml
 left to right direction
 
-actor Admin
-actor Responsable
-actor Apprenant
+actor "Responsable pédagogique" as Resp
+actor "Apprenant" as Etu
 
-rectangle "Système Entretien" {
-  usecase "Créer Formulaire" as UC1
-  usecase "Gérer Questions" as UC2
-  usecase "Gérer Options" as UC3
-  usecase "Créer Entretien" as UC4
-  usecase "Affecter Formulaire à Apprenant" as UC5
-  usecase "Voir Tableau de Bord" as UC6
-  usecase "Répondre aux Questions" as UC7
-  usecase "Voir Résultats Entretien" as UC8
-  usecase "Analyser Réponses" as UC9
+rectangle "Système Entretien Individuel" {
+
+  ' Responsable
+  usecase UC1 as "Créer et gérer des formulaires d’entretien"
+  usecase UC2 as "Planifier et activer un formulaire"
+  usecase UC3 as "Consulter les soumissions des étudiants"
+  usecase UC4 as "Analyser les réponses via l’IA"
+  usecase UC5 as "Consulter les insights générés"
+  usecase UC6 as "Consulter le tableau de bord des performances"
+
+  ' Apprenant
+  usecase UC7 as "Consulter les formulaires actifs"
+  usecase UC8 as "Soumettre un check-in"
+  usecase UC9 as "Consulter mes réponses et historique"
+  
+  Resp --> UC1
+  Resp --> UC2
+  Resp --> UC3
+  Resp --> UC4
+  Resp --> UC5
+  Resp --> UC6
+
+  Etu --> UC7
+  Etu --> UC8
+  Etu --> UC9
 }
-
-Responsable --> UC1
-Responsable --> UC2
-Responsable --> UC3
-Responsable --> UC4
-Responsable --> UC5
-Responsable --> UC6
-Responsable --> UC8
-Responsable --> UC9
-
-Apprenant --> UC7
-
-Admin --> UC6
 
 @enduml

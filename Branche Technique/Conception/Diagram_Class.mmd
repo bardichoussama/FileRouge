@@ -1,108 +1,95 @@
-classDiagram
-    direction LR
+@startuml Modèles Laravel
+!theme materia-outline
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageFontStyle bold
+skinparam packageFontSize 14
+skinparam classFontSize 12
+skinparam classBackgroundColor #F8F9FA
+skinparam packageBackgroundColor #E3F2FD
+skinparam packageBorderColor #1976D2
+skinparam minClassWidth 150
+skinparam classMinWidth 150
+skinparam packagePadding 20
+skinparam classPadding 10
 
-    %% ==== Base User ====
-    class User {
-        +int id
-        +string name
-        +string email
-        +string password
+' Classe externe Utilisateur
+class Utilisateur {
+    +id : entier
+    +nom : chaîne
+    +email : chaîne
+}
+
+package "ModuleApprenant" #LightBlue {
+    class Promotion {
+        +id : entier
+        +nom : chaîne
+        +description : chaîne
+        +date_début : date
+        +date_fin : date
+        +est_active : booléen
     }
-
-    class Apprenant {
-        +int id
-        +int user_id
-        +int group_id
-    }
-
-    class Responsable {
-        +int id
-        +int user_id
-    }
-
+    
     class Groupe {
-        +int id
-        +string nom
-        +int annee_promotion
-        +string? description
+        +id : entier
+        +nom : chaîne
+        +description : chaîne
     }
-
-    class PreEntretienForm {
-        +int id
-        +string titre
-        +string? description
-        +datetime deadline
+    
+    class Apprenant {
+        +id : entier
     }
+}
 
+package "ModuleEntretienIndividuel" #LightGreen {
+    class Responsable {
+        +id : entier
+    }
+    
+    class FormulaireCheckin {
+        +id : entier
+        +titre : chaîne
+        +description : chaîne
+        +date_début : datetime
+        +date_fin : datetime
+        +est_actif : booléen
+    }
+    
     class Question {
-        +int id
-        +int formulaire_id
-        +string enonce
-        +string type
-        +int ordre
-        +bool obligatoire
+        +id : entier
+        +texte_question : chaîne
+        +type_question : chaîne
     }
-
-    class OptionReponse {
-        +int id
-        +int question_id
-        +string texte
+    
+    class CheckinEtudiant {
+        +id : entier
+        +créé_le : datetime
     }
-
-    class Entretien {
-        +int id
-        +datetime date_heure
-        +int duree_minutes
-        +int responsable_id
-        +int groupe_id
-        +int? formulaire_id
-        +string statut
+    
+    class RéponseCheckinEtudiant {
+        +id : entier
+        +texte_réponse : chaîne
     }
-
-    class EntretienApprenant {
-        +int id
-        +int entretien_id
-        +int apprenant_id
+    
+    class AnalyseIA {
+        +id : entier
+        +texte_analyse : chaîne
+        +type : chaîne
     }
+}
 
-    class ReponseFormulaire {
-        +int id
-        +int formulaire_id
-        +int apprenant_id
-        +datetime date_soumission
-    }
+' Relations sans flèches - juste des lignes avec cardinalités
+Promotion "1" -- "*" Groupe
+Groupe "1" -- "*" Apprenant
+Utilisateur "1" -- "*" Apprenant
+Utilisateur "1" -- "*" Responsable
+Promotion "1" -- "*" FormulaireCheckin
+FormulaireCheckin "1" -- "*" Question
+Apprenant "1" -- "*" CheckinEtudiant
+FormulaireCheckin "1" -- "*" CheckinEtudiant
+CheckinEtudiant "1" -- "*" RéponseCheckinEtudiant
+CheckinEtudiant "1" -- "*" AnalyseIA
+Question "1" -- "*" RéponseCheckinEtudiant
 
-    class ReponseQuestion {
-        +int id
-        +int reponse_formulaire_id
-        +int question_id
-        +string? reponse_texte
-    }
-
-    class ReponseOption {
-        +int id
-        +int reponse_question_id
-        +int option_reponse_id
-    }
-
-    %% ==== Relationships ====
-    Apprenant "1" --> "1" User
-    Responsable "1" --> "1" User
-
-    Apprenant "0..*" --> "1" Groupe : belongs to
-    Entretien "1" --> "1" Responsable : responsable
-    EntretienApprenant "1" --> "1" Apprenant : apprenant
-    ReponseFormulaire "1" --> "1" Apprenant : submitter
-
-    Groupe "1" <-- "0..*" Apprenant
-    Entretien "1" --> "1" Groupe : targets
-
-    PreEntretienForm "1" --> "0..*" Question : contains
-    Entretien "0..1" --> "1" PreEntretienForm : uses
-    ReponseFormulaire "1" --> "1" PreEntretienForm : is answer of
-
-    Question "1" --> "0..*" OptionReponse : options
-    ReponseFormulaire "1" --> "0..*" ReponseQuestion : contains
-    ReponseQuestion "1" --> "1" Question : answers
-    ReponseQuestion "1" --> "0..*" ReponseOption : selected
-    ReponseOption "1" --> "1" OptionReponse : refers
+@enduml

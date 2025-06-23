@@ -1,0 +1,11 @@
+{
+    "name": "PkgEvenement",
+    "alias": "pkgevenement",
+    "description": "Evenement module",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PkgEvenement\\App\\Providers\\EvenementServiceProvider"
+    ],
+    "files": []
+} 

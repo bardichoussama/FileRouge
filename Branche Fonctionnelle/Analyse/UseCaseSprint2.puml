@@ -1,23 +1,25 @@
 @startuml
 left to right direction
 
-actor Responsable
-actor Admin
+actor "Responsable pédagogique" as Resp
+actor "Apprenant" as Etu
 
-rectangle "Sprint 1: Configuration Formulaire & Dashboard" {
-  usecase "Créer Formulaire" as UC1
-  usecase "Ajouter Questions" as UC2
-  usecase "Ajouter Options" as UC3
-  usecase "Créer Entretien" as UC4
-  usecase "Voir Tableau de Bord" as UC5
+rectangle "Sprint 2 : Gestion des Check-ins et Analyse IA" {
+
+    usecase UC1 as "Créer, modifier et activer un formulaire"
+    usecase UC2 as "Remplir un formulaire actif"
+    usecase UC3 as "Soumettre ses réponses (check-in)"
+    usecase UC4 as "Analyser les réponses via l’IA"
+    usecase UC5 as "Consulter les insights générés"
+    usecase UC6 as "Consulter l’historique de mes check-ins"
+
+    Resp --> UC1
+    Resp --> UC4
+    Resp --> UC5
+
+    Etu --> UC2
+    Etu --> UC3
+    Etu --> UC6
 }
-
-Responsable --> UC1
-Responsable --> UC2
-Responsable --> UC3
-Responsable --> UC4
-Responsable --> UC5
-
-Admin --> UC5
 
 @enduml

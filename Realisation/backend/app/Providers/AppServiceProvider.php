@@ -3,20 +3,20 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\EntretienIndividuel\Providers\EntretienIndividuelServiceProvider; 
+use Modules\PkgEvenement\App\Providers\EvenementServiceProvider;
+use Modules\PkgApprenant\Providers\ApprenantServiceProvider;
+use Modules\PkgSessionDeSuivi\Providers\SessionDeSuiviServiceProvider;
+
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        $this->app->register(EntretienIndividuelServiceProvider::class); 
+        $this->app->register(EvenementServiceProvider::class);
+        // $this->app->register(EntretienIndividuelServiceProvider::class);
+        $this->app->register(ApprenantServiceProvider::class);
+        $this->app->register(SessionDeSuiviServiceProvider::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         //
